@@ -2,6 +2,8 @@
 
 This project provides a **user registration page** that collects user details and posts them to a Django backend. It includes real-time password confirmation validation, file upload support, and responsive form handling.
 
+Live Demo : https://www.youtube.com/watch?v=1RZu5mpNstc
+
 ---
 
 ## 🔧 Features

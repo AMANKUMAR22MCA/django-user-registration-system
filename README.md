@@ -41,6 +41,22 @@ This project provides a **user registration page** that collects user details an
 3. On submit, the form data is collected using `FormData()`.
 4. A POST request is made to `http://127.0.0.1:8000/api/register/`.
 5. If successful → redirects to login page. Otherwise → shows an alert.
+✅ If successful:
+→ User is redirected to the Login page.
+
+On the login page, the user enters their username and password.
+
+A POST request is made to:
+http://127.0.0.1:8000/api/token/ to obtain access and refresh tokens.
+
+✅ If login is successful:
+→ Tokens are stored in localStorage.
+→ User is redirected to the Dashboard.
+
+The Dashboard fetches the user's profile data from:
+http://127.0.0.1:8000/api/dashboard/ using the access token.
+
+🔒 Logout button clears the access/refresh tokens and redirects to login.
 
 ---
 
@@ -66,11 +82,6 @@ This project provides a **user registration page** that collects user details an
 
 ---
 
-## 🧠 Author
-
-Designed and implemented as part of a full-stack registration module.
-
----
 
 ## 📄 License
 
@@ -110,7 +121,8 @@ pip install -r requirements.txt
 
 ```bash
 python manage.py makemigrations accounts
-python manage.py migrate
+python manage.py migrate accounts
+python manage.py migrate 
 ```
 
 ### 5. Run the development server

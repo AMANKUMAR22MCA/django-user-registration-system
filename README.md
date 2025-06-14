@@ -93,8 +93,8 @@ Follow the steps below to run this project locally:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone https://github.com/AMANKUMAR22MCA/django-user-registration-system.git
+cd django-user-registration-system
 ```
 
 ### 2. Create and activate a virtual environment

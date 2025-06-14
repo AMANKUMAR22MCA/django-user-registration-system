@@ -139,4 +139,3 @@ Open your browser and navigate to:
 http://127.0.0.1:5500/frontend/index.html
 ```
 
-Ensure that `register.html`, `index.html`, and other static files are served correctly by placing them in the appropriate static directory or hosting them via a lightweight frontend server.

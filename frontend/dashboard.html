@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <h2>Welcome, <span id="user-name">User</span></h2>
+      <button id="logout-btn" class="logout-button">Logout</button>
+    </div>
+
+    <div class="profile-section">
+      <img src="" alt="Profile Picture" id="profile-pic" class="profile-pic" />
+      <div class="profile-details">
+        <p><strong>Full Name:</strong> <span id="full-name"></span></p>
+        <p><strong>Username:</strong> <span id="username"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+        <p><strong>User Type:</strong> <span id="user-type"></span></p>
+        <p><strong>Address:</strong> <span id="address"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const accessToken = localStorage.getItem("access");
+
+    if (!accessToken) {
+      alert("You must be logged in to view the dashboard.");
+      window.location.href = "index.html";
+    } else {
+      fetch("http://127.0.0.1:8000/api/dashboard/", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+        .then(async (res) => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch user data");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          document.getElementById("user-name").textContent = data.first_name;
+          document.getElementById("full-name").textContent = `${data.first_name} ${data.last_name}`;
+          document.getElementById("username").textContent = data.username;
+          document.getElementById("email").textContent = data.email;
+          document.getElementById("user-type").textContent = data.user_type;
+
+          const address = `${data.address_line1}, ${data.city}, ${data.state} - ${data.pincode}`;
+          document.getElementById("address").textContent = address;
+
+          if (data.profile_picture) {
+            document.getElementById("profile-pic").src = data.profile_picture;
+          } else {
+            document.getElementById("profile-pic").src = "default-avatar.png";
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Session expired or unauthorized. Please login again.");
+          localStorage.removeItem("access");
+          localStorage.removeItem("refresh");
+          window.location.href = "index.html";
+        });
+    }
+
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      alert("Logged out successfully.");
+      window.location.href = "index.html";
+    });
+  </script>
+
+  <style>
+    .logout-button {
+      padding: 8px 16px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      float: right;
+    }
+    .logout-button:hover {
+      background-color: #d32f2f;
+    }
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</body>
+</html>
